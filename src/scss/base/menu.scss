@@ -1,0 +1,156 @@
+.menu {
+	// .menu__icon
+	&__icon {
+	}
+	// .menu__body
+	&__body {
+		@media (max-width: $mobile) {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			left: -100%;
+			top: 0;
+			overflow: auto;
+			padding: toRem(50) toRem(15) toRem(15) toRem(30);
+			transition: left 0.3s;
+			background-color: rgb(0, 0, 0);
+			&::before {
+				content: "";
+				position: fixed;
+				width: 100%;
+				height: toRem(60);
+				left: -100%;
+				top: 0;
+				transition: left 0.3s;
+				z-index: 7;
+				background-color: inherit;
+			}
+			.menu-open & {
+				left: 0;
+				&::before {
+					left: 0;
+				}
+			}
+		}
+	}
+	// .menu__list
+	&__list {
+		display: flex;
+		flex-wrap: wrap;
+		@include adaptiveValue("column-gap", 48, 12, 0, 1400, 768);
+		row-gap: toRem(5);
+		@include adaptiveValue("padding-left", 20, 10);
+		@include adaptiveValue("padding-right", 20, 10);
+		padding-top: toRem(5);
+		padding-bottom: toRem(5);
+		@media (max-width: $mobile) {
+			padding: toRem(120) toRem(15) toRem(40) toRem(30);
+			flex-direction: column;
+			align-items: flex-end;
+			row-gap: toRem(25);
+		}
+	}
+	// .menu__item
+	&__item {
+	}
+	// .menu__link
+	&__link {
+		color: $whiteColor;
+		font-weight: 400;
+		line-height: 1.31;
+		position: relative;
+		transition: all 0.4s;
+		&::before {
+			content: "";
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			width: toRem(5);
+			height: toRem(5);
+			border-radius: 50%;
+			background-color: #fff;
+			transform: translate(-50%, 150%) scale(1);
+			opacity: 0;
+			transition: all 0.4s;
+			pointer-events: none;
+		}
+		@media (any-hover: hover) {
+			&:hover {
+				transform: translate(0, -20%);
+				&::before {
+					opacity: 1;
+					transform: translate(-50%, 100%) scale(1);
+					animation: pulse 1.2s infinite ease-in-out;
+				}
+			}
+		}
+		@media (max-width: $mobile) {
+			font-size: toRem(20);
+		}
+	}
+}
+//========================================================================================================================================================
+// Анімація пульсації
+@keyframes pulse {
+	0%,
+	100% {
+		transform: translate(-50%, 100%) scale(1);
+		opacity: 1;
+	}
+	50% {
+		transform: translate(-50%, 100%) scale(1.5);
+		opacity: 0.6;
+	}
+}
+//========================================================================================================================================================
+
+//Burger Icon
+.icon-menu {
+	display: none;
+	@media (max-width: $mobile) {
+		display: block;
+		position: relative;
+		width: toRem(30);
+		height: toRem(18);
+		z-index: 5;
+		@media (any-hover: none) {
+			cursor: default;
+		}
+		span,
+		&::before,
+		&::after {
+			content: "";
+			transition: all 0.3s ease 0s;
+			right: 0;
+			position: absolute;
+			width: 100%;
+			height: toRem(2);
+			background-color: #fff;
+		}
+		&::before {
+			top: 0;
+		}
+		&::after {
+			bottom: 0;
+		}
+		span {
+			top: calc(50% - toRem(1));
+		}
+		.menu-open & {
+			span {
+				width: 0;
+			}
+			&::before,
+			&::after {
+			}
+			&::before {
+				top: calc(50% - toRem(1));
+				transform: rotate(-45deg);
+			}
+			&::after {
+				bottom: calc(50% - toRem(1));
+				transform: rotate(45deg);
+			}
+		}
+	}
+}
